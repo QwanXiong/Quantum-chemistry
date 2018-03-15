@@ -1,1 +1,1 @@
-Trying to implement Hartree-Fock
+Trying to implement Hartree-Fock method
