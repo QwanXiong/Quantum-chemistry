@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "Algorithm.h"
 #include "Molecule.h"
 #include "Elements.h"
 #include "GTO.h"
@@ -29,32 +30,86 @@ int main(int argc, char const *argv[])
 {
 
 	
-	
+	char basis_filename[256];
+	char coord_filename[256];
 
-	Molecule current_molecule;
-	read_coords("testfiles/coords.txt",&current_molecule);
+	printf("Write the name of basis file:\n");
+	scanf("%s", basis_filename);
+	printf("Write the name of coordinates file:\n");
+	scanf("%s", coord_filename);
+
+
+
+	 Molecule current_molecule;
+	 read_coords(coord_filename,&current_molecule);
+	// read_coords("coords.txt",&current_molecule);
 
 	SCF scf_operator ;
-	read_basis("testfiles/basis.txt", &scf_operator, &current_molecule);
+	scf_operator.setN(10);
 
-	scf_operator.print_all_orbitals("testfiles/orbitals.txt");
+	
+	read_basis(basis_filename, &scf_operator, &current_molecule);
+	// read_basis("basis.txt", &scf_operator, &current_molecule);
 
-
-	Atom at1(-1.2, -2.1, 0.47);
-	Atom at2(0.14, 2.3, 4.1);
-
-	GTO g1(0.12, 2, 1, 3, &at1);
-	GTO g2(0.43, 0, 4, 2, &at2);
+	 scf_operator.print_all_orbitals("orbitals.txt");
 
 
-	printf("overlap: %f\n",scf_operator.od_overlap(8,2, 0.12, 0.43, -1.2, 0.14));
-	printf("overlap: %f\n",scf_operator.compute_gto_overlap(&g1, &g2));
+	 
+
+
 
 	
 
 	system("pause");
 	return 0;
 }
+
+
+	
+ /*
+	Atom at1(0.3, 0.0, -0.0);
+	 Atom at2(0.0, 0.4, 0.5);
+
+
+	  GTO g1(0.19,1, 1, 1, &at1);
+	  GTO g2(0.19, 0, 1, 0, &at1);
+	   GTO g3(0.19, 1, 1, 0, &at2);
+	    GTO g4(0.19, 0, 1, 0, &at2);
+	 Atom nuc(0.2, 0.3, 1.2);
+
+ 
+	
+	for (int i = 0; i < 100000; ++i)
+	{
+		scf_operator.compute_gto_coulomb_2e(&g1, &g2, &g3, &g4);
+	}
+	printf("integral: %f\n", scf_operator.compute_gto_coulomb_2e(&g1, &g2, &g3, &g4));
+
+	  */
+
+
+	/*printf("overlap: %f\n",scf_operator.od_overlap(8,2, 0.12, 0.43, -1.2, 0.14));
+	scf_operator.plan_1e_calculation(&g1, &g2,&nuc);
+	printf("overlap: %f\n",scf_operator.compute_gto_overlap_v1(&g1, &g2));
+	printf("overlap: %f\n",scf_operator.compute_gto_overlap_v2( &g1, &g2));
+	scf_operator.finish_1e_calculation();*/
+
+	
+
+
+ 
+
+	
+	/* printf("overlap between STOs: %f\n",
+	 	scf_operator.compute_sto_overlap_v2(&scf_operator.orbitals[0], &scf_operator.orbitals[1]));
+
+	 printf("calculating\n");
+	 for (int i = 0; i < 1000000; ++i)
+	 {
+	 	scf_operator.compute_sto_overlap_v1(&scf_operator.orbitals[0], &scf_operator.orbitals[1]);
+	 }
+*/
+
 
 void read_basis(const char* filename, SCF* scf_operator, Molecule* curr_mol)
 {
@@ -275,6 +330,8 @@ void read_coords(const char* filename, Molecule* curr_mol)
 
 	 //printf("\n\n");
 	 curr_mol->get_all_coords();
+	 curr_mol->print_charge_coords();
+	 curr_mol -> nuclear_repulsion_energy();
 	 
 	 
 

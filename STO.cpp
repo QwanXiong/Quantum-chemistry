@@ -115,11 +115,10 @@ STO::STO (int _ngauss, int _l, int _m, int _n, double * _alphai, double* _ai, At
 				primitives[counter].calc_norm();
 
 						
-						//ai[ng] /= sqrt(primitives[counter].norm);
-				//printf("norm: %f\n",primitives[counter].norm);
+						 
 				primitives[counter].set_a(ai[counter]/sqrt(primitives[counter].norm));
-				// printf("a modified: %f\n",ai[counter]/sqrt(primitives[counter].norm));
-				// printf("a mod: %f\n", primitives[counter].a);
+				//primitives[counter].set_a(ai[counter]);
+				 
 						
 						//printf("%d  %d  %d  %d  %d\n",counter, ng, l, k, L-l-k);
 

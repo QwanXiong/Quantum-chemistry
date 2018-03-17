@@ -1,9 +1,10 @@
 all: main.exe clean
 
-CXXFLAGS := -std=gnu++11
+CXXFLAGS := -std=gnu++11 
+LIBS := -lgsl -lgslcblas
 
-main.exe: main.o  STO.o GTO.o HF_SCF.o Molecule.o
-	g++ $(CXXFLAGS)  main.o STO.o GTO.o HF_SCF.o Molecule.o -o main.exe
+main.exe: main.o  STO.o GTO.o HF_SCF.o Molecule.o Algorithm.o
+	g++ $(CXXFLAGS)  main.o STO.o GTO.o HF_SCF.o Molecule.o Algorithm.o $(LIBS) -o testfiles/main.exe
 
 
 main.o: 
@@ -20,6 +21,9 @@ HF_SCF.o:
 
 Molecule.o:
 	g++ $(CXXFLAGS) -c  Molecule.cpp
+
+Algorithm.o:
+	g++ $(CXXFLAGS) -c  Algorithm.cpp
 
  
 
